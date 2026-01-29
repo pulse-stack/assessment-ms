@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./prisma/"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum EvaluationActivityType {
+  EXAM
+  QUIZZ
+  TASK
+  IMPROVEMENT_PLAN
+
+}
+
+model EvaluationActivity {
+  id String @id @default(uuid())
+  type EvaluationActivityType
+  title String 
+}
