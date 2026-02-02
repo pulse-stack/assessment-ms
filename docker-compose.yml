@@ -17,8 +17,6 @@ services:
 
     volumes:
       - assessment_db_data:/var/lib/postgresql/data
-      # Scripts SQL opcionales
-      - ./db/init:/docker-entrypoint-initdb.d
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]

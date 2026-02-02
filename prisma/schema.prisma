@@ -43,73 +43,117 @@ enum ActivityAssignmentType {
   COHORT
 }
 
-model EvaluationActivity {
-  id String @id @default(uuid())
-  type EvaluationActivityType
-  title String
-  description String?
-  instructorId String
-  label ActivityLabel @relation(fields: [labelId], references: [id])
-  labelId String
-  startDate DateTime
-  endDate DateTime
-  maxScore Int
-  passingScore Int
-  settings Json
-  status EvaluationActivityStatus
-  createdAt DateTime @default(now())
+enum ActivityAssignmentStatus {
+  ASSIGNED
+  COMPLETED
+  GRADED
+  CANCELED
+}
 
-  questions Question[]
+enum QuestionResourceType {
+  TEXT
+  IMAGE
+  VIDEO
+  CODE
+  FILE
+  LINK
+}
+
+model EvaluationActivity {
+  id           String                   @id @default(uuid())
+  type         EvaluationActivityType
+  title        String
+  description  String?
+  instructorId String
+  label        ActivityLabel            @relation(fields: [labelId], references: [id])
+  labelId      String
+  startDate    DateTime
+  endDate      DateTime
+  maxScore     Int
+  settings     Json
+  status       EvaluationActivityStatus
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+  deletedAt    DateTime?
+
+  questions           Question[]
   activityAssignments ActivityAssignment[]
-  submissions Submission[]
+  submissions         Submission[]
+
   @@index([labelId])
   @@index([instructorId])
 }
 
 model ActivityLabel {
-  id String @id @default(uuid())
-  name String
+  id              String               @id @default(uuid())
+  name            String
   backgroundColor String?
-  instructorId String
-  activities EvaluationActivity[]
-  createdAt DateTime @default(now())
+  icon            String?
+  iconCode        String?
+  instructorId    String
+  activities      EvaluationActivity[]
 
   @@unique([name, instructorId])
 }
 
 model ActivityAssignment {
-  id String @id @default(uuid())
+  id         String                   @id @default(uuid())
   activityId String
-  activity  EvaluationActivity @relation(fields: [activityId], references: [id])
-  type ActivityAssignmentType
-  cohortId  String
-  studentId String?
+  activity   EvaluationActivity       @relation(fields: [activityId], references: [id])
+  type       ActivityAssignmentType
+  cohortId   String
+  studentId  String?
+  status     ActivityAssignmentStatus
+  createdAt  DateTime                 @default(now())
+  updatedAt  DateTime                 @updatedAt
+  deletedAt  DateTime?
 }
 
 model Question {
-  id String @id @default(uuid())
+  id         String             @id @default(uuid())
   activityId String
-  activity  EvaluationActivity @relation(fields: [activityId], references: [id])
-  type QuestionType
-  statement String
-  score Int?
-  order Int
-  hint String?
-  config Json
+  activity   EvaluationActivity @relation(fields: [activityId], references: [id])
+  type       QuestionType
+  statement  String
+  score      Int                @default(0)
+  order      Int
+  hint       String?
+  config     Json
+
+  question QuestionResource[]
+
+  @@index([activityId, order])
+}
+
+model QuestionResource {
+  id          String               @id @default(uuid())
+  title       String?
+  description String?
+  questionId  String
+  question    Question             @relation(fields: [questionId], references: [id])
+  type        QuestionResourceType
+  content     Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([questionId])
 }
 
 model Submission {
-  id String @id @default(uuid())
-  activityId String
-  activity  EvaluationActivity @relation(fields: [activityId], references: [id])
-  studentId String
-  startedAt DateTime
+  id          String             @id @default(uuid())
+  activityId  String
+  activity    EvaluationActivity @relation(fields: [activityId], references: [id])
+  studentId   String
+  startedAt   DateTime
   submittedAt DateTime?
-  score Int?
-  maxScore Int?
-  status SubmissionStatus
-  final Boolean @default(true)
-  attempt Int @default(1)
+  score       Int?
+  maxScore    Int?
+  status      SubmissionStatus
+  final       Boolean            @default(true)
+  attempt     Int                @default(1)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 
   submissionItems SubmissionItem[]
 
@@ -118,15 +162,15 @@ model Submission {
 }
 
 model SubmissionItem {
-  id String @id @default(uuid())
+  id           String     @id @default(uuid())
   submissionId String
-  submission Submission @relation(fields: [submissionId], references: [id])
-  questionId String?
-  text String?
-  json Json?
-  fileUrl String?
-  score Int?
-  maxScore Int?
+  submission   Submission @relation(fields: [submissionId], references: [id])
+  questionId   String?
+  text         String?
+  json         Json?
+  fileUrl      String?
+  score        Int?
+  maxScore     Int?
 
   @@index([submissionId])
 }
