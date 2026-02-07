@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import { registerPlugins } from "./plugins";
 import { registerRoutes } from "./routes";
+import { errorHandler } from "./shared/http/error-handler";
 
 export const app = Fastify({
     logger: {
@@ -8,12 +9,10 @@ export const app = Fastify({
     },
 });
 
-export async function buildApp() {
-    await registerPlugins(app);
-    await registerRoutes(app);
+export function buildApp() {
+    registerPlugins(app);
+    registerRoutes(app);
+    app.setErrorHandler(errorHandler);
 
     return app;
 }
-
-registerPlugins(app);
-registerRoutes(app);

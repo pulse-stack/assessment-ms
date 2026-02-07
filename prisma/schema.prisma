@@ -7,14 +7,14 @@ datasource db {
   provider = "postgresql"
 }
 
-enum EvaluationActivityType {
+enum AssessmentType {
   EXAM
   QUIZZ
   TASK
   IMPROVEMENT_PLAN
 }
 
-enum EvaluationActivityStatus {
+enum AssessmentStatus {
   DRAFT
   PUBLISHED
   INACTIVE
@@ -38,12 +38,12 @@ enum SubmissionStatus {
   INVALID
 }
 
-enum ActivityAssignmentType {
+enum AssessmentAssignmentType {
   STUDENT
   COHORT
 }
 
-enum ActivityAssignmentStatus {
+enum AssessmentAssignmentStatus {
   ASSIGNED
   COMPLETED
   GRADED
@@ -59,51 +59,51 @@ enum QuestionResourceType {
   LINK
 }
 
-model EvaluationActivity {
+model Assessment {
   id           String                   @id @default(uuid())
-  type         EvaluationActivityType
+  type         AssessmentType
   title        String
   description  String?
   instructorId String
-  label        ActivityLabel            @relation(fields: [labelId], references: [id])
   labelId      String
+  label        AssessmentLabel            @relation(fields: [labelId], references: [id])
   startDate    DateTime
   endDate      DateTime
   maxScore     Int
   settings     Json
-  status       EvaluationActivityStatus
+  status       AssessmentStatus
   createdAt    DateTime                 @default(now())
   updatedAt    DateTime                 @updatedAt
   deletedAt    DateTime?
 
   questions           Question[]
-  activityAssignments ActivityAssignment[]
+  assessmentAssignments AssessmentAssignment[]
   submissions         Submission[]
 
   @@index([labelId])
   @@index([instructorId])
 }
 
-model ActivityLabel {
+model AssessmentLabel {
   id              String               @id @default(uuid())
   name            String
   backgroundColor String?
   icon            String?
   iconCode        String?
   instructorId    String
-  activities      EvaluationActivity[]
+  activities      Assessment[]
 
   @@unique([name, instructorId])
 }
 
-model ActivityAssignment {
+model AssessmentAssignment {
   id         String                   @id @default(uuid())
   activityId String
-  activity   EvaluationActivity       @relation(fields: [activityId], references: [id])
-  type       ActivityAssignmentType
+  activity   Assessment       @relation(fields: [activityId], references: [id])
+  type       AssessmentAssignmentType
   cohortId   String
   studentId  String?
-  status     ActivityAssignmentStatus
+  status     AssessmentAssignmentStatus
   createdAt  DateTime                 @default(now())
   updatedAt  DateTime                 @updatedAt
   deletedAt  DateTime?
@@ -112,7 +112,7 @@ model ActivityAssignment {
 model Question {
   id         String             @id @default(uuid())
   activityId String
-  activity   EvaluationActivity @relation(fields: [activityId], references: [id])
+  activity   Assessment @relation(fields: [activityId], references: [id])
   type       QuestionType
   statement  String
   score      Int                @default(0)
@@ -143,7 +143,7 @@ model QuestionResource {
 model Submission {
   id          String             @id @default(uuid())
   activityId  String
-  activity    EvaluationActivity @relation(fields: [activityId], references: [id])
+  activity    Assessment @relation(fields: [activityId], references: [id])
   studentId   String
   startedAt   DateTime
   submittedAt DateTime?

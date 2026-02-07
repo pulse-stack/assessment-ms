@@ -1,8 +1,6 @@
 import type { FastifyInstance } from "fastify";
-import assessmentsRoutes from "./modules/assessments/assessments.route";
-import submissionRoutes from "./modules/submissions/submission.routes";
+import { assessmentRoutes } from "./modules/assessments/assessments.route";
 
 export async function registerRoutes(app: FastifyInstance) {
-    await app.register(assessmentsRoutes, { prefix: "/assessments" });
-    await app.register(submissionRoutes, { prefix: "/submissions" });
+    await app.register(assessmentRoutes, { prefix: "/assessments" });
 }
