@@ -1,6 +1,11 @@
-import { defineEnum, type TypeOf } from "../utils/define-enum";
+import { defineEnum, type ValueOf } from "@pulse/primitives";
 
-const values = ["DRAFT", "PUBLISHED", "INACTIVE", "DELETED"];
+export const ASSESSMENT_STATUS_VALUES = [
+    "DRAFT",
+    "PUBLISHED",
+    "INACTIVE",
+    "DELETED",
+];
 
-export const AssessmentStatus = defineEnum(values);
-export type AssessmentStatus = TypeOf<typeof AssessmentStatus>;
+export const AssessmentStatus = defineEnum(ASSESSMENT_STATUS_VALUES);
+export type AssessmentStatus = ValueOf<typeof AssessmentStatus>;

@@ -14,6 +14,12 @@ importers:
       '@prisma/client':
         specifier: ^7.3.0
         version: 7.3.0(prisma@7.3.0(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(typescript@5.9.3)
+      '@pulse/primitives':
+        specifier: 0.1.1
+        version: 0.1.1
+      '@sinclair/typebox':
+        specifier: ^0.34.48
+        version: 0.34.48
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -315,6 +321,12 @@ packages:
       '@types/react': ^18.0.0 || ^19.0.0
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
+
+  '@pulse/primitives@0.1.1':
+    resolution: {integrity: sha512-/eVvzvnIFu+0IhNN/iZPRaZ6yzpXc+YsORnYx7O24X9+K1R2AtJdeb2pgvygGTnr3fpFi6hDs82zd+fQjhONHA==}
+
+  '@sinclair/typebox@0.34.48':
+    resolution: {integrity: sha512-kKJTNuK3AQOrgjjotVxMrCn1sUJwM76wMszfq1kdU4uYVJjvEWuFQ6HgvLt4Xz3fSmZlTOxJ/Ie13KnIcWQXFA==}
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -1050,6 +1062,10 @@ snapshots:
       '@types/react': 19.2.10
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
+
+  '@pulse/primitives@0.1.1': {}
+
+  '@sinclair/typebox@0.34.48': {}
 
   '@standard-schema/spec@1.1.0': {}
 

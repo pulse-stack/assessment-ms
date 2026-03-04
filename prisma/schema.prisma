@@ -71,7 +71,7 @@ model Assessment {
   endDate      DateTime
   maxScore     Int
   settings     Json
-  status       AssessmentStatus
+  status       AssessmentStatus         @default(DRAFT)
   createdAt    DateTime                 @default(now())
   updatedAt    DateTime                 @updatedAt
   deletedAt    DateTime?

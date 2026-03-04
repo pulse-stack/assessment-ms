@@ -23,6 +23,8 @@
     "dependencies": {
         "@prisma/adapter-pg": "^7.3.0",
         "@prisma/client": "^7.3.0",
+        "@pulse/primitives": "0.1.1",
+        "@sinclair/typebox": "^0.34.48",
         "dotenv": "^17.2.3",
         "fastify": "^5.7.4",
         "fastify-plugin": "^5.1.0",

@@ -7,6 +7,13 @@ export const app = Fastify({
     logger: {
         level: "info",
     },
+    ajv: {
+        customOptions: {
+            removeAdditional: true,
+            coerceTypes: true,
+            useDefaults: true,
+        },
+    },
 });
 
 export function buildApp() {

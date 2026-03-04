@@ -7,6 +7,8 @@ export const baseResponseSchema = {
         message: { type: "string" },
         // Allows `data` to be any valid JSON value.
         // Intended to be specialized by route-level schemas.
-        data: true,
+        data: {
+            type: ["object", "array", "null"],
+        },
     },
 };
